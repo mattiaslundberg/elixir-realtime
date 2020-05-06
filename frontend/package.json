@@ -1,0 +1,13 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "Existing frontend application",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "parcel": "^1.12.4",
+    "typescript": "^3.8.3"
+  },
+  "author": "Mattias Lundberg <mattias.lundberg@codelabs.se>",
+  "license": "MIT"
+}
