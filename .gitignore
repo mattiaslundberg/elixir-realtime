@@ -34,3 +34,7 @@ node_modules/
 /priv/static/
 
 .elixir_ls/
+
+.log/
+
+.cache/
