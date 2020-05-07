@@ -1,0 +1,15 @@
+#container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 1rem;
+  gap: 1rem;
+}
+
+.resource {
+  border: 1px gray solid;
+  padding: 5px;
+}
+
+.resource-name {
+  font-weight: bold;
+}
