@@ -1,11 +1,16 @@
 // Mock data instead of providing an API.
 const REMOTE_DATA = {
   resources: [
-    { name: "Projektor", booked: true },
-    { name: "Konferensrum A", booked: false },
-    { name: "Mikrofon", booked: false },
+    { id: 1, name: "Projektor", booked: true },
+    { id: 2, name: "Konferensrum A", booked: false },
+    { id: 3, name: "Mikrofon", booked: false },
   ],
 };
+
+import { Socket } from "phoenix";
+
+let socket = new Socket("ws://localhost:4005/socket", {});
+socket.connect();
 
 const createElement = (
   elementType: string,
@@ -48,13 +53,34 @@ const renderResource = (resource) => {
     text: bookedButtonDisplay(booked),
   });
 
+  let channel = socket.channel(`booking:${resource.id}`, {});
+  channel.join();
+  channel.on("booking", (m) => {
+    if (m.isLocked) {
+      bookButton.setAttribute("disabled", true);
+    } else {
+      bookButton.removeAttribute("disabled");
+    }
+    if (m.hasOwnProperty("booked")) {
+      updateBookingStatus(m.booked);
+    }
+  });
+
+  const updateBookingStatus = (b) => {
+    booked = !booked;
+    status.innerText = bookedStatusDisplay(booked);
+    bookButton.innerText = bookedButtonDisplay(booked);
+  };
+
   bookButton.addEventListener("click", () => {
+    channel.push("booking", { isLocked: true });
     const res = confirm(`Vill du ${bookedButtonDisplay(booked)}?`);
     if (res) {
-      booked = !booked;
-      status.innerText = bookedStatusDisplay(booked);
-      bookButton.innerText = bookedButtonDisplay(booked);
+      channel.push("booking", { isLocked: !booked, booked: !booked });
+      updateBookingStatus(!booked);
       // NOTE: Update REMOTE_DATA with API call here.
+    } else {
+      channel.push("booking", { isLocked: false });
     }
   });
 };
