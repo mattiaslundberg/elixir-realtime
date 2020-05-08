@@ -3,7 +3,6 @@ defmodule RealtimeWeb.BookingChannel do
 
   @impl true
   def join("booking:" <> id, _, socket) do
-    IO.inspect "JOIN" <> id
     {:ok, socket}
   end
 
@@ -18,13 +17,13 @@ defmodule RealtimeWeb.BookingChannel do
   # broadcast to everyone in the current topic (booking:lobby).
   @impl true
   def handle_in("shout", payload, socket) do
-    broadcast socket, "shout", payload
+    broadcast(socket, "shout", payload)
     {:noreply, socket}
   end
 
   @impl true
   def handle_in("booking", payload, socket) do
-    broadcast_from socket, "booking", payload
+    broadcast_from(socket, "booking", payload)
     {:noreply, socket}
   end
 
