@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Existing frontend application",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "phoenix": "^1.5.1"
+  },
   "devDependencies": {
     "parcel": "^1.12.4",
     "typescript": "^3.8.3"
